@@ -3,7 +3,15 @@
 one:
   product: two
   cart: one
+  price: 9.99
 
 two:
   product: two
   cart: two
+  price: 9.99
+
+two_ruby:
+  product: ruby
+  cart: one
+  price: 49.50
+  quantity: 2
