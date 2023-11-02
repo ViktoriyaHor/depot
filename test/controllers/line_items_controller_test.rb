@@ -16,7 +16,7 @@ class LineItemsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should create line_item" do
-    assert_difference("LineItem.count") do
+    assert_difference("LineItem.count", 1) do
       post line_items_url, params: { product_id: products(:ruby).id }
     end
 
@@ -24,6 +24,30 @@ class LineItemsControllerTest < ActionDispatch::IntegrationTest
 
     assert_select 'h2', 'Your Cart'
     assert_select 'td', "Programming Ruby"
+    assert_select 'td.quantity', "1"
+  end
+
+  test "should not create line_item if product is duplicated in a cart" do
+    assert_difference("LineItem.count", 1) do
+      post line_items_url, params: { product_id: products(:ruby).id }
+      post line_items_url, params: { product_id: products(:ruby).id }
+    end
+
+    follow_redirect!
+
+    assert_select 'h2', 'Your Cart'
+    assert_select 'td', "Programming Ruby"
+    assert_select 'td.quantity', "2"
+  end
+
+  test "should create line_item via turbo-stream" do
+    assert_difference('LineItem.count') do
+      post line_items_url, params: { product_id: products(:ruby).id },
+           as: :turbo_stream
+    end
+
+    assert_response :success
+    assert_match /<tr class="line-item-highlight">/, @response.body
   end
 
   test "should show line_item" do

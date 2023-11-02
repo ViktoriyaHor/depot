@@ -1,5 +1,6 @@
 class ProductsController < ApplicationController
   before_action :set_product, only: %i[ show edit update destroy ]
+  rescue_from ActiveRecord::RecordNotFound, with: :invalid_product
 
   # GET /products or /products.json
   def index
@@ -40,6 +41,9 @@ class ProductsController < ApplicationController
       if @product.update(product_params)
         format.html { redirect_to product_url(@product), notice: "Product was successfully updated." }
         format.json { render :show, status: :ok, location: @product }
+
+        @product.broadcast_replace_later_to 'products',
+                                            partial: 'store/product'
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @product.errors, status: :unprocessable_entity }
@@ -67,4 +71,9 @@ class ProductsController < ApplicationController
     def product_params
       params.require(:product).permit(:title, :description, :image_url, :price)
     end
+
+  def invalid_product
+    logger.error "Attempt to access invalid product #{params[:id]}"
+    redirect_to products_url, notice: 'Invalid product'
+  end
 end
