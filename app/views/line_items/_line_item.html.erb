@@ -3,11 +3,28 @@
 <% else %>
   <tr>
   <% end %>
+    <% if line_item.quantity > 1 %>
+        <td>
+          <%= button_to "<",
+                        decrease_line_items_path(product_id: line_item.product_id),
+                        form_class: 'inline',
+                        class: 'ml-2 rounded-lg py-1 px-2 text-white bg-green-600'%>
+        </td>
+    <% else %>
+      <td></td>
+    <% end %>
     <td class="text-right quantity"><%= line_item.quantity %></td>
+    <td>
+      <%= button_to ">",
+                    line_items_path(product_id: line_item.product_id),
+                    form_class: 'inline',
+                    class: 'ml-2 rounded-lg py-1 px-2 text-white bg-green-600'%>
+    </td>
     <td>&times;</td>
     <td class="pr-2">
       <%= line_item.product.title %>
     </td>
+
     <td class="text-right font-bold">
       <%= number_to_currency(line_item.total_price) %>
     </td>
