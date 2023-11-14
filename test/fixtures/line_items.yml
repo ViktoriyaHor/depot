@@ -6,12 +6,12 @@ one:
   price: 9.99
 
 two:
-  product: two
-  cart: two
+  product: ruby
+  order: one
   price: 9.99
 
 two_ruby:
   product: ruby
-  cart: one
+  order: one
   price: 49.50
   quantity: 2
