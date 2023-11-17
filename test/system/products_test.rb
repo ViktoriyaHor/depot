@@ -5,43 +5,27 @@ class ProductsTest < ApplicationSystemTestCase
     @product = products(:one)
   end
 
-  test "visiting the index" do
-    visit products_url
-    assert_selector "h1", text: "Products"
+  test "should display cart" do
+    visit store_index_url
+    click_on 'Add to Cart', match: :first
+
+    assert_text "Line item was successfully created."
+    assert_text "Your Cart"
   end
 
-  test "should create product" do
-    visit products_url
-    click_on "New product"
+  test "should hide cart" do
+    visit store_index_url
+    click_on 'Add to Cart', match: :first
+    click_on 'Empty Cart'
 
-    fill_in "Description", with: @product.description
-    fill_in "Image url", with: @product.image_url
-    fill_in "Price", with: @product.price
-    fill_in "Title", with: @product.title
-    click_on "Create Product"
-
-    assert_text "Product was successfully created"
-    click_on "Back"
+    assert_text "Your cart is currently empty"
+    assert_no_text "Your Cart"
   end
 
-  test "should update Product" do
-    visit product_url(@product)
-    click_on "Edit this product", match: :first
+  test "should highlight new line_item in the cart" do
+    visit store_index_url
+    click_on 'Add to Cart', match: :first
 
-    fill_in "Description", with: @product.description
-    fill_in "Image url", with: @product.image_url
-    fill_in "Price", with: @product.price
-    fill_in "Title", with: @product.title
-    click_on "Update Product"
-
-    assert_text "Product was successfully updated"
-    click_on "Back"
-  end
-
-  test "should destroy Product" do
-    visit product_url(@product)
-    click_on "Destroy this product", match: :first
-
-    assert_text "Product was successfully destroyed"
+    assert has_css? "tr.line-item-highlight"
   end
 end
