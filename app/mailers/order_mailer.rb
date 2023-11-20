@@ -22,6 +22,6 @@ class OrderMailer < ApplicationMailer
     @order = order
 
     mail to: order.email,
-         subject: 'Pragmatic Store Order Confirmation'
+         subject: 'Pragmatic Store Order Shipped'
   end
 end

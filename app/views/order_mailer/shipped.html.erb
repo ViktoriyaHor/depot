@@ -1,4 +1,4 @@
-<h3>Paragmatic Order Shipped</h3>
+<h3>Pragmatic Order Shipped</h3>
 
 <p>
   This is just to let you know that we've shipped your recent order:
@@ -7,6 +7,6 @@
 <table>
   <tr>
     <th colspan="2">Qty</th><th>Description</th>
-    <%= render @order.line_items %>
+    <%= render @order.line_items, email: true %>
   </tr>
 </table>
