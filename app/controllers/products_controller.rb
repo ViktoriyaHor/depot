@@ -85,7 +85,9 @@ class ProductsController < ApplicationController
     end
 
   def invalid_product
-    logger.error "Attempt to access invalid product #{params[:id]}"
+    message = "Attempt to access invalid product #{params[:id]}"
+    logger.error message
+    HandleErrorJob.perform_later(message)
     redirect_to products_url, notice: 'Invalid product'
   end
 end

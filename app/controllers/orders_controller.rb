@@ -46,6 +46,7 @@ class OrdersController < ApplicationController
   def update
     respond_to do |format|
       if @order.update(order_params)
+        ShipOrderJob.perform_later(@order, order_params[:ship_date]) if @order.saved_change_to_ship_date?
         format.html { redirect_to order_url(@order), notice: "Order was successfully updated." }
         format.json { render :show, status: :ok, location: @order }
       else
@@ -73,7 +74,7 @@ class OrdersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def order_params
-      params.require(:order).permit(:name, :address, :email, :pay_type, :routing_number, :account_number, :po_number, :credit_card_number, :expiration_date)
+      params.require(:order).permit(:name, :address, :email, :pay_type, :routing_number, :account_number, :po_number, :credit_card_number, :expiration_date, :ship_date)
     end
 
     def ensure_cart_isnt_empty

@@ -84,6 +84,25 @@ class OrdersTest < ApplicationSystemTestCase
     click_on "Back"
   end
 
+  test "should send email if update Order ship date" do
+    visit order_url(@order)
+    click_on "Edit this order", match: :first
+
+    fill_in "Ship date", with: DateTime.current
+    click_on "Place Order"
+
+    assert_text "Order was successfully updated"
+
+    perform_enqueued_jobs
+    perform_enqueued_jobs
+    assert_performed_jobs 2
+
+    mail = ActionMailer::Base.deliveries.last
+    assert_equal ["dave@example.com"], mail.to
+    assert_equal "Ruby <depot@example.com>", mail[:from].value
+    assert_equal "Pragmatic Store Order Shipped", mail.subject
+  end
+
   test "should destroy Order" do
     visit order_url(@order)
     click_on "Destroy this order", match: :first

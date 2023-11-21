@@ -75,7 +75,9 @@ class CartsController < ApplicationController
     end
 
   def invalid_cart
-    logger.error "Attempt to access invalid cart #{params[:id]}"
+    message = "Attempt to access invalid cart #{params[:id]}"
+    logger.error message
+    HandleErrorJob.perform_later(message)
     redirect_to store_index_url, notice: 'Invalid cart'
   end
 end
