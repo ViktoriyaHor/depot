@@ -12,7 +12,7 @@ class ActiveSupport::TestCase
   # Add more helper methods to be used by all tests here...
 end
 
-class ActionDispatch::IntegrationTest
+class ActionDispatch::SystemTestCase
   def login_as(user)
     if respond_to? :visit
       visit login_url
