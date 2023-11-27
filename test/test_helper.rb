@@ -1,6 +1,7 @@
 ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
 require "rails/test_help"
+require_relative './support/authenticated_test_helper'
 
 class ActiveSupport::TestCase
   # Run tests in parallel with specified workers
@@ -12,23 +13,10 @@ class ActiveSupport::TestCase
   # Add more helper methods to be used by all tests here...
 end
 
+class ActionDispatch::IntegrationTest
+  include AuthenticatedTestHelper
+end
+
 class ActionDispatch::SystemTestCase
-  def login_as(user)
-    if respond_to? :visit
-      visit login_url
-      fill_in :name, with: user.name
-      fill_in :password, with: 'secret'
-      click_on 'Login'
-    else
-      post login_url, params: { name: user.name, password: 'secret' }
-    end
-  end
-
-  def logout
-    delete logout_url
-  end
-
-  def setup
-    login_as users(:one)
-  end
+  include AuthenticatedTestHelper
 end

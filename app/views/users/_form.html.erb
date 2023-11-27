@@ -30,7 +30,7 @@
         class: "input-field" %>
   </div>
 
-  <% if action_name = "edit" %>
+  <% if action_name == "edit" %>
     <div class="my-5">
       <%= form.label :current_password, 'Current password:' %>
       <%= form.password_field :current_password, class: "input-field" %>
