@@ -147,4 +147,14 @@ class OrdersTest < ApplicationSystemTestCase
     assert has_no_field? 'Expiration date'
     assert has_field? 'Po number'
   end
+
+  test "should prevent updating orders after logout" do
+    visit order_url(@order)
+
+    click_on "Logout"
+
+    assert_text "Logged out"
+    visit order_url(@order)
+    assert_text "Please log in"
+  end
 end
