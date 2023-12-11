@@ -6,18 +6,20 @@ Rails.application.routes.draw do
     delete 'logout' => :destroy
   end
   resources :users
-  resources :orders
-  resources :line_items do
-    collection do
-      post 'decrease'
-    end
-  end
-  resources :carts
-  root 'store#index', as: 'store_index'
   resources :products do
     member do
       get 'who_bought'
     end
+  end
+  scope '(:locale)' do
+    resources :orders
+    resources :line_items do
+      collection do
+        post 'decrease'
+      end
+    end
+    resources :carts
+    root 'store#index', as: 'store_index', via: :all
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
