@@ -11,6 +11,14 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.0].define(version: 2023_12_13_211414) do
+  create_table "active_currency_rates", force: :cascade do |t|
+    t.string "from"
+    t.string "to"
+    t.float "value"
+    t.datetime "created_at", precision: nil
+    t.index ["from", "to", "created_at"], name: "index_active_currency_rates"
+  end
+
   create_table "carts", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
