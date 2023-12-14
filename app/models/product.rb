@@ -8,6 +8,7 @@ class Product < ApplicationRecord
     with: %r{\.(gif|jpg|png)\z}i,
     message: 'must be a URL for GIF, JPG or PNG image.'
   }
+  validates :locale, inclusion: { in: I18n.available_locales.map(&:to_s) }
 
   has_many :line_items
   has_many :orders, through: :line_items
