@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     post 'login' => :create
     delete 'logout' => :destroy
   end
+  recources :support_requests, only: %i[ index update ]
   resources :users
   resources :products do
     member do
