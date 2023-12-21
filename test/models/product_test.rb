@@ -15,7 +15,8 @@ class ProductTest < ActiveSupport::TestCase
   test "product price must be positive" do
     product = Product.new(title: "My book title",
                           description: "New description",
-                          image_url: "zzz.jpg")
+                          image_url: "zzz.jpg",
+                          locale: "en")
 
     product.price = -1
     assert product.invalid?
@@ -43,7 +44,8 @@ class ProductTest < ActiveSupport::TestCase
     Product.new(title: "My book title",
                 description: "New description",
                 price: 1,
-                image_url: image_url)
+                image_url: image_url,
+                locale: "en")
   end
 
   test "image_url" do
