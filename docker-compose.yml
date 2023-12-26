@@ -19,6 +19,7 @@ services:
       - "8001:80"
     depends_on:
       - db
+
 secrets:
   master_key:
     file: ./config/master.key
