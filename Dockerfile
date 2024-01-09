@@ -1,9 +1,9 @@
-FROM phusion/passenger-full:2.2.0
+FROM phusion/passenger-full:2.4.0
 
 RUN rm /etc/nginx/sites-enabled/default
 RUN rm -f /etc/service/nging/down
 RUN rm -f /etc/service/redis/down
-ADD config/nginx.config /etc/nginx/sites-enabled/depot.conf
+ADD config/nginx.conf /etc/nginx/sites-enabled/depot.conf
 
 USER app
 RUN mkdir /home/app/depot
